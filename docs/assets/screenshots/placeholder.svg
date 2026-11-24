@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 800" width="1280" height="800" role="img" aria-label="Emplacement de capture à ajouter">
+  <rect width="1280" height="800" fill="#0d0d0d"/>
+  <rect x="40" y="40" width="1200" height="720" rx="16" fill="none" stroke="#3a3a3a" stroke-width="2" stroke-dasharray="12 12"/>
+  <g fill="none" stroke="#5a5a5a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" transform="translate(590 320)">
+    <rect x="0" y="0" width="100" height="76" rx="8"/>
+    <path d="M0 20h100M16 10h.01M28 10h.01M40 10h.01"/>
+  </g>
+  <g font-family="ui-monospace, monospace" text-anchor="middle" fill="#8a8a8a">
+    <text x="640" y="470" font-size="30">Capture à ajouter</text>
+    <text x="640" y="515" font-size="18">01-history-dark.png · 02-pinned.png · 03-shortcut.png</text>
+  </g>
+</svg>

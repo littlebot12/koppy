@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a0a0a">
+  <meta name="description" content="Koppy : historique du presse-papier pour Linux, épinglage, persistance et raccourci global Shift+Super+V. Installation en une commande.">
+  <title>Koppy — l’historique du presse-papier, en un raccourci</title>
+
+  <link rel="canonical" href="https://littlebot12.github.io/koppy/">
+  <link rel="icon" type="image/svg+xml" href="assets/img/koppy.svg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <script src="assets/js/main.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Aller au contenu</a>
+
+  <!-- Jeu d’icônes SVG inline (aucune emoji, aucun asset raster). -->
+  <svg class="icon-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M15 9V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h3"/></symbol>
+    <symbol id="i-clipboard" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="16" rx="2"/><path d="M9 5V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1M9 11h6M9 15h6"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M9 3h6l-1 6 3 3v2H7v-2l3-3-1-6ZM12 14v7"/></symbol>
+    <symbol id="i-keyboard" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M6 14h.01M18 14h.01M9 14h6"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></symbol>
+    <symbol id="i-contrast" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18V3Z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-desktop" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8m-4-4v4"/></symbol>
+    <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.4 8.4 8 9 4.6-.6 8-4 8-9V6l-8-3Z"/><path d="m9 12 2 2 4-4"/></symbol>
+  </svg>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#top" aria-label="Koppy — retour en haut de page">
+        <img src="assets/img/koppy.svg" alt="" width="32" height="32" aria-hidden="true">
+        <span>koppy</span>
+      </a>
+      <nav class="site-nav" aria-label="Navigation principale">
+        <a href="#installation">Installation</a>
+        <a href="#features">Fonctionnalités</a>
+        <a href="#captures">Captures</a>
+        <a class="nav-external" href="https://github.com/littlebot12/koppy" target="_blank" rel="noopener noreferrer" aria-label="Dépôt GitHub de Koppy — ouvre un nouvel onglet">
+          <svg class="icon" aria-hidden="true"><use href="#i-external"></use></svg>
+          <span>GitHub</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Linux · GPUI · Rust · Open source</p>
+          <h1 id="hero-title">Votre presse-papier,<br><span>en un raccourci.</span></h1>
+          <p class="lead">Koppy garde l’historique de tout ce que vous copiez, vous laisse épingler l’essentiel et recolle votre sélection en un clic. Une petite fenêtre, zéro friction.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#installation">
+              <svg class="icon" aria-hidden="true"><use href="#i-download"></use></svg>
+              Installer Koppy
+            </a>
+            <a class="button button-quiet" href="#captures">Voir les captures</a>
+          </div>
+          <p class="hero-shortcut">Raccourci global <kbd>Shift</kbd><span>+</span><kbd>Super</kbd><span>+</span><kbd>V</kbd></p>
+        </div>
+
+        <div class="hero-visual">
+          <img src="assets/img/koppy.png" alt="Aperçu de l’interface Koppy" width="760" height="620" fetchpriority="high">
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="installation" aria-labelledby="install-title">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-index">01 / Installation</span>
+          <h2 id="install-title">Une commande, et c’est installé.</h2>
+          <p>Le script récupère la dernière release GitHub, vérifie son empreinte SHA-256, puis installe le binaire, l’icône du dock, le lanceur et le raccourci clavier.</p>
+        </div>
+
+        <div class="install-card">
+          <div class="install-card-head">
+            <span class="install-card-title"><span class="status-dot"></span>Installation automatique</span>
+            <span class="badge">Ubuntu 24.04 · x86_64</span>
+          </div>
+          <div class="command-row">
+            <code class="command" id="cmd-one-liner">sh -c "$(curl -fsSL https://raw.githubusercontent.com/littlebot12/koppy/main/tools/install.sh)"</code>
+            <button class="copy-button" type="button" data-copy-target="cmd-one-liner" aria-label="Copier la commande d’installation">
+              <svg class="icon" aria-hidden="true"><use href="#i-copy"></use></svg>
+              <span class="copy-label">Copier</span>
+            </button>
+          </div>
+          <p class="install-meta"><svg class="icon" aria-hidden="true"><use href="#i-shield"></use></svg> Empreinte SHA-256 vérifiée avant installation.</p>
+        </div>
+
+        <details class="disclosure">
+          <summary>Installer manuellement depuis une release <svg class="icon" aria-hidden="true"><use href="#i-chevron"></use></svg></summary>
+          <div class="disclosure-body">
+            <ol class="steps">
+              <li>
+                <p>Téléchargez l’archive de la dernière release :</p>
+                <div class="command-row">
+                  <code class="command" id="cmd-download">curl -fL -o koppy.tar.gz https://github.com/littlebot12/koppy/releases/latest/download/koppy-linux-x86_64.tar.gz</code>
+                  <button class="copy-button" type="button" data-copy-target="cmd-download" aria-label="Copier la commande de téléchargement"><svg class="icon" aria-hidden="true"><use href="#i-copy"></use></svg><span class="copy-label">Copier</span></button>
+                </div>
+              </li>
+              <li>
+                <p>Extrayez puis lancez le script fourni :</p>
+                <div class="command-row">
+                  <code class="command" id="cmd-extract">mkdir koppy &amp;&amp; tar -xzf koppy.tar.gz -C koppy &amp;&amp; cd koppy &amp;&amp; ./install-shortcut.sh</code>
+                  <button class="copy-button" type="button" data-copy-target="cmd-extract" aria-label="Copier les commandes d’extraction et d’installation"><svg class="icon" aria-hidden="true"><use href="#i-copy"></use></svg><span class="copy-label">Copier</span></button>
+                </div>
+              </li>
+            </ol>
+            <p class="fine-print">Le binaire est compilé sur Ubuntu 24.04 (glibc 2.39) : une distribution équivalente ou plus récente est nécessaire.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="features" aria-labelledby="features-title">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-index">02 / Fonctionnalités</span>
+          <h2 id="features-title">Pensé pour être oublié.</h2>
+          <p>Koppy travaille en arrière-plan et n’apparaît que lorsque vous en avez besoin.</p>
+        </div>
+        <div class="feature-grid">
+          <article class="feature-card">
+            <svg class="icon feature-icon" aria-hidden="true"><use href="#i-clock"></use></svg>
+            <h3>Historique automatique</h3>
+            <p>Les 30 derniers textes copiés sont enregistrés. Un texte recopié remonte en tête au lieu d’être dupliqué.</p>
+          </article>
+          <article class="feature-card">
+            <svg class="icon feature-icon" aria-hidden="true"><use href="#i-pin"></use></svg>
+            <h3>Épinglage durable</h3>
+            <p>Gardez vos snippets précieux au-dessus de la liste. Ils survivent au « Tout supprimer » et aux redémarrages.</p>
+          </article>
+          <article class="feature-card">
+            <svg class="icon feature-icon" aria-hidden="true"><use href="#i-bolt"></use></svg>
+            <h3>Raccourci global</h3>
+            <p><kbd>Shift</kbd> + <kbd>Super</kbd> + <kbd>V</kbd> affiche la fenêtre centrée, y compris sous GNOME Wayland.</p>
+          </article>
+          <article class="feature-card">
+            <svg class="icon feature-icon" aria-hidden="true"><use href="#i-clipboard"></use></svg>
+            <h3>Clic et c’est collé</h3>
+            <p>Choisir une carte recopie son texte puis ferme immédiatement la fenêtre. Il ne reste qu’à coller avec <kbd>Ctrl</kbd> + <kbd>V</kbd>.</p>
+          </article>
+          <article class="feature-card">
+            <svg class="icon feature-icon" aria-hidden="true"><use href="#i-contrast"></use></svg>
+            <h3>Suit votre thème</h3>
+            <p>L’application est monochrome et s’adapte automatiquement au mode clair ou sombre du système.</p>
+          </article>
+          <article class="feature-card">
+            <svg class="icon feature-icon" aria-hidden="true"><use href="#i-desktop"></use></svg>
+            <h3>Intégré au desktop</h3>
+            <p>Icône propre dans le dock, lanceur système, icônes SVG natives pour toutes les actions de la barre de titre.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="captures" aria-labelledby="captures-title">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-index">03 / Captures</span>
+          <h2 id="captures-title">À quoi ça ressemble.</h2>
+          <p>Quelques vues de l’application en thème sombre. Cliquez sur une capture pour l’agrandir.</p>
+        </div>
+        <div class="screenshot-grid">
+          <figure class="shot">
+            <img src="assets/img/01-history-dark.png" data-fallback="assets/screenshots/placeholder.svg" data-lightbox alt="Historique Koppy en thème sombre : grille de cartes avec aperçus de texte" width="760" height="620" loading="lazy">
+            <figcaption><span class="shot-number">01</span> Historique et grille de cartes en thème sombre</figcaption>
+          </figure>
+          <figure class="shot">
+            <img src="assets/img/02-pinned.png" data-fallback="assets/screenshots/placeholder.svg" data-lightbox alt="Éléments épinglés et actions de suppression dans Koppy" width="760" height="620" loading="lazy">
+            <figcaption><span class="shot-number">02</span> Éléments épinglés et actions rapides</figcaption>
+          </figure>
+          <figure class="shot">
+            <img src="assets/img/03-shortcut.png" data-fallback="assets/screenshots/placeholder.svg" data-lightbox alt="Fenêtre Koppy centrée après le raccourci Shift+Super+V" width="1495" height="1190" loading="lazy">
+            <figcaption><span class="shot-number">03</span> Fenêtre centrée après Shift + Super + V</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="faq" aria-labelledby="faq-title">
+      <div class="container faq-layout">
+        <div class="section-head">
+          <span class="section-index">04 / Questions fréquentes</span>
+          <h2 id="faq-title">Les détails qui comptent.</h2>
+        </div>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary>Le raccourci fonctionne-t-il sous Wayland ? <svg class="icon" aria-hidden="true"><use href="#i-chevron"></use></svg></summary>
+            <p>Oui. Wayland interdit les raccourcis globaux captés par les applications, donc le script enregistre un raccourci personnalisé dans GNOME qui exécute <code>koppy --activate</code>. Sous X11, Koppy tente aussi un grab direct.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Où sont stockées les données ? <svg class="icon" aria-hidden="true"><use href="#i-chevron"></use></svg></summary>
+            <p>Dans <code>~/.local/share/koppy/clipboard_history.json</code>. Aucun texte ne quitte votre machine.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Que faire si l’icône n’apparaît pas dans le dock ? <svg class="icon" aria-hidden="true"><use href="#i-chevron"></use></svg></summary>
+            <p>Le script rafraîchit les caches d’icônes et du desktop. Sous GNOME Wayland, une déconnexion puis une reconnexion suffisent généralement à afficher le lanceur.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Comment installer une version précise ? <svg class="icon" aria-hidden="true"><use href="#i-chevron"></use></svg></summary>
+            <p>Préfixez la commande d’installation avec <code>KOPPY_VERSION=v0.1.0</code>. La version <code>latest</code> est utilisée par défaut.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span class="footer-brand">koppy</span>
+      <p>Un gestionnaire de presse-papier léger pour Linux, construit avec <a href="https://rust-lang.org/" target="_blank" rel="noopener noreferrer" aria-label="Rust — site officiel (nouvel onglet)" style="color: white;">Rust</a> et GPUI.</p>
+      <a href="https://github.com/littlebot12/koppy" target="_blank" rel="noopener noreferrer" aria-label="Voir le code source sur GitHub — ouvre un nouvel onglet">
+        Code source <svg class="icon" aria-hidden="true"><use href="#i-external"></use></svg>
+      </a>
+    </div>
+  </footer>
+
+  <p class="sr-only" id="copy-status" role="status" aria-live="polite"></p>
+
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Capture agrandie" hidden>
+    <button class="lightbox-close" type="button" aria-label="Fermer la capture agrandie">
+      <svg class="icon" aria-hidden="true"><use href="#i-close"></use></svg>
+    </button>
+    <img class="lightbox-image" alt="">
+    <p class="lightbox-caption"></p>
+  </div>
+</body>
+</html>

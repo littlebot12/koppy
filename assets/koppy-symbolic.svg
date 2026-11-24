@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <title>Koppy — marque symbolique</title>
+
+  <!-- Même dessin que koppy.svg, mais en niveaux d'alpha : GPUI n'utilise que
+       le canal alpha et teinte le résultat avec la couleur du texte. -->
+  <rect width="128" height="128" rx="28" fill="#000000" fill-opacity="0.08"/>
+
+  <!-- Feuilles décalées : historique. -->
+  <rect x="28" y="36" width="58" height="68" rx="10" fill="#000000" fill-opacity="0.35"/>
+  <rect x="34" y="31" width="58" height="68" rx="10" fill="#000000" fill-opacity="0.60"/>
+
+  <!-- Planche principale, avec des découpes pour le texte et l'épingle. -->
+  <path fill="#000000" fill-rule="evenodd" d="
+    M50 27 H88 A10 10 0 0 1 98 37 V89 A10 10 0 0 1 88 99 H50 A10 10 0 0 1 40 89 V37 A10 10 0 0 1 50 27 Z
+    M55 52 H83 A3 3 0 0 1 83 58 H55 A3 3 0 0 1 55 52 Z
+    M55 66 H75 A3 3 0 0 1 75 72 H55 A3 3 0 0 1 55 66 Z
+    M55 80 H79 A3 3 0 0 1 79 86 H55 A3 3 0 0 1 55 80 Z
+    M88 38 L97 29 L103 35 L94 44 L90 45 Z
+  "/>
+
+  <!-- Pince du presse-papier, avec sa fente. -->
+  <path fill="#000000" fill-rule="evenodd" d="
+    M65 19 H73 A7 7 0 0 1 73 33 H65 A7 7 0 0 1 65 19 Z
+    M67 22 H71 A4 4 0 0 1 71 30 H67 A4 4 0 0 1 67 22 Z
+  "/>
+</svg>

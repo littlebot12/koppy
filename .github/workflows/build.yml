@@ -1,0 +1,83 @@
+name: Build Koppy
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  CARGO_TERM_COLOR: always
+  ASSET_NAME: koppy-linux-x86_64
+
+jobs:
+  build:
+    # Ubuntu 24.04 pour rester compatible avec les systèmes cibles (glibc).
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Dépendances système (GPUI / Wayland / X11)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            pkg-config \
+            libxkbcommon-dev \
+            libxkbcommon-x11-dev \
+            libxcb1-dev \
+            libxcb-xkb-dev \
+            libx11-dev \
+            libxrandr-dev \
+            libxi-dev \
+            libwayland-dev \
+            libfontconfig1-dev \
+            libfreetype6-dev
+
+      - name: Toolchain Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+
+      - name: Cache Cargo
+        uses: Swatinem/rust-cache@v2
+
+      - name: Vérifications (clippy)
+        run: cargo clippy --locked --all-targets -- -D warnings
+
+      - name: Build release
+        run: cargo build --release --locked
+
+      - name: Préparation de l’archive
+        run: |
+          mkdir -p dist/assets
+          cp target/release/koppy dist/koppy
+          cp install-shortcut.sh dist/install-shortcut.sh
+          mkdir -p dist/tools
+          cp tools/install.sh dist/tools/install.sh
+          cp assets/koppy.svg dist/assets/koppy.svg
+          cp README.md dist/README.md
+          chmod +x dist/install-shortcut.sh
+          tar -czf "${ASSET_NAME}.tar.gz" -C dist .
+          sha256sum "${ASSET_NAME}.tar.gz" > "${ASSET_NAME}.tar.gz.sha256"
+
+      - name: Upload de l’artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ASSET_NAME }}
+          path: |
+            ${{ env.ASSET_NAME }}.tar.gz
+            ${{ env.ASSET_NAME }}.tar.gz.sha256
+          if-no-files-found: error
+
+      - name: Publication d’une release (tags v*)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ${{ env.ASSET_NAME }}.tar.gz
+            ${{ env.ASSET_NAME }}.tar.gz.sha256
+          generate_release_notes: true

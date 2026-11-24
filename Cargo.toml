@@ -1,0 +1,20 @@
+[package]
+name = "koppy"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+gpui = "0.2.2"
+arboard = "3.4.1"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+dirs = "5.0"
+# Canal de signalisation entre les threads (raccourci global, socket
+# d'activation) et la boucle d'événements GPUI.
+async-channel = "2"
+# Grab du raccourci global sous X11 (sans effet sous Wayland GNOME).
+x11rb = "0.13"
+
+# xattr 0.2.3 still references ENOATTR on Linux, which was removed in newer libc releases.
+# Pin the compatible libc release so the gpui dependency tree builds reliably on this system.
+libc = "=0.2.183"

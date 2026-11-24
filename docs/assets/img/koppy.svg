@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <title>Koppy — presse-papier avec historique</title>
+
+  <!-- Fond sombre, coins arrondis : silhouette nette dans le dock. -->
+  <rect width="128" height="128" rx="28" fill="#111111"/>
+
+  <!-- Feuilles décalées : l'historique du presse-papier. -->
+  <rect x="28" y="36" width="58" height="68" rx="10" fill="#4b5563"/>
+  <rect x="34" y="31" width="58" height="68" rx="10" fill="#9ca3af"/>
+
+  <!-- Planche principale. -->
+  <rect x="40" y="27" width="58" height="72" rx="10" fill="#f8fafc"/>
+
+  <!-- Pince du presse-papier. -->
+  <rect x="58" y="19" width="22" height="14" rx="7" fill="#f8fafc"/>
+  <rect x="63" y="22" width="12" height="8" rx="4" fill="#111111"/>
+
+  <!-- Lignes de texte : aperçu du dernier élément copié. -->
+  <rect x="52" y="52" width="34" height="6" rx="3" fill="#111111"/>
+  <rect x="52" y="66" width="26" height="6" rx="3" fill="#111111"/>
+  <rect x="52" y="80" width="30" height="6" rx="3" fill="#111111"/>
+
+  <!-- Épingle discrète : les éléments épinglés survivent au vidage. -->
+  <path d="M88 38 L97 29 L103 35 L94 44 L90 45 Z" fill="#111111"/>
+</svg>
