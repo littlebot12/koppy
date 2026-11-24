@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
-# Installation LOCALE depuis le dépôt Koppy.
+# Installation de Koppy depuis une release OU depuis le dépôt local.
 #
-# Usage : ./install-shortcut.sh   (à la racine du dépôt)
+# Usage :
+#   ./install-shortcut.sh                            # à la racine du dépôt : compile puis installe
+#   KOPPY_BINARY=/chemin/koppy ./install-shortcut.sh  # depuis une archive de release
 #
-# Ce script ne télécharge rien : il compile les sources présentes dans le
-# dépôt, puis installe le binaire, l'icône, le lanceur et le raccourci clavier
-# dans ~/.local. Pour installer depuis une release GitHub, utilise
-# tools/install.sh à la place.
+# Ce script ne télécharge rien : il installe le binaire fourni (ou compilé),
+# l'icône, le lanceur et le raccourci clavier dans ~/.local. Pour installer
+# depuis une release GitHub, utilise tools/install.sh, qui fournit
+# KOPPY_BINARY à ce script.
 #
 # Sous GNOME Wayland, une application ne peut pas capter elle-même des touches
 # globales (modèle de sécurité Wayland). Le raccourci est donc déclaré comme
@@ -18,9 +20,36 @@ set -euo pipefail
 
 PROJECT_DIR="$(cd "$(dirname "${0}")" && pwd)"
 
-if [ ! -f "${PROJECT_DIR}/Cargo.toml" ]; then
-    echo "erreur : Cargo.toml introuvable dans ${PROJECT_DIR}." >&2
-    echo "Ce script installe uniquement depuis une copie locale du dépôt." >&2
+# ---------------------------------------------------------------------------
+# Choix du binaire à installer :
+#   1. KOPPY_BINARY : transmis par tools/install.sh (archive de release) ;
+#   2. ./koppy      : archive de release extraite manuellement ;
+#   3. Cargo.toml   : dépôt local, compilation depuis les sources.
+# ---------------------------------------------------------------------------
+if [ -n "${KOPPY_BINARY:-}" ]; then
+    SOURCE_BINARY="${KOPPY_BINARY}"
+    if [ ! -x "${SOURCE_BINARY}" ]; then
+        echo "erreur : binaire introuvable ou non exécutable : ${SOURCE_BINARY}." >&2
+        exit 1
+    fi
+elif [ -x "${PROJECT_DIR}/koppy" ]; then
+    SOURCE_BINARY="${PROJECT_DIR}/koppy"
+elif [ -f "${PROJECT_DIR}/Cargo.toml" ]; then
+    command -v cargo >/dev/null 2>&1 || {
+        echo "erreur : cargo est requis pour compiler depuis les sources." >&2
+        exit 1
+    }
+    echo '==> Compilation (release) depuis les sources locales…'
+    cargo build --release --manifest-path "${PROJECT_DIR}/Cargo.toml"
+    SOURCE_BINARY="${PROJECT_DIR}/target/release/koppy"
+else
+    echo "erreur : ni binaire (KOPPY_BINARY ou ./koppy) ni Cargo.toml dans ${PROJECT_DIR}." >&2
+    echo "Ce script installe depuis une archive de release ou une copie locale du dépôt." >&2
+    exit 1
+fi
+
+if [ ! -f "${PROJECT_DIR}/assets/koppy.svg" ]; then
+    echo "erreur : icône introuvable : ${PROJECT_DIR}/assets/koppy.svg" >&2
     exit 1
 fi
 
@@ -33,12 +62,9 @@ KEYBINDING_PATH='/org/gnome/settings-daemon/plugins/media-keys/custom-keybinding
 SCHEMA='org.gnome.settings-daemon.plugins.media-keys.custom-keybinding'
 MEDIA_KEYS='org.gnome.settings-daemon.plugins.media-keys'
 
-echo '==> Compilation (release) depuis les sources locales…'
-cargo build --release --manifest-path "${PROJECT_DIR}/Cargo.toml"
-
 echo "==> Installation du binaire dans ${BIN_DIR}…"
 mkdir -p "${BIN_DIR}"
-cp "${PROJECT_DIR}/target/release/koppy" "${BINARY}"
+cp "${SOURCE_BINARY}" "${BINARY}"
 
 echo '==> Installation de l’icône et du lanceur (barre des tâches)…'
 mkdir -p "${ICON_DIR}" "${APP_DIR}"
