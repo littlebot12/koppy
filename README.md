@@ -96,3 +96,7 @@ code avec Clippy (`-D warnings`) et produit une archive
 
 Le binaire étant lié à glibc 2.39 (Ubuntu 24.04), il faut une distribution
 égale ou plus récente pour l'exécuter.
+
+## Licence
+
+Koppy est distribué sous licence [MIT](LICENSE).

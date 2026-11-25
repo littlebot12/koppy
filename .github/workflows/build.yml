@@ -60,6 +60,7 @@ jobs:
           cp tools/install.sh dist/tools/install.sh
           cp assets/koppy.svg dist/assets/koppy.svg
           cp README.md dist/README.md
+          cp LICENSE dist/LICENSE
           chmod +x dist/install-shortcut.sh
           tar -czf "${ASSET_NAME}.tar.gz" -C dist .
           sha256sum "${ASSET_NAME}.tar.gz" > "${ASSET_NAME}.tar.gz.sha256"

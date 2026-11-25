@@ -6,8 +6,8 @@
 #   KOPPY_BINARY=/chemin/koppy ./install-shortcut.sh  # depuis une archive de release
 #
 # Ce script ne télécharge rien : il installe le binaire fourni (ou compilé),
-# l'icône, le lanceur et le raccourci clavier dans ~/.local. Pour installer
-# depuis une release GitHub, utilise tools/install.sh, qui fournit
+# l'icône, le lanceur et le raccourci clavier dans ~/.local. 
+# Pour installer depuis une release GitHub, utilise tools/install.sh, qui fournit
 # KOPPY_BINARY à ce script.
 #
 # Sous GNOME Wayland, une application ne peut pas capter elle-même des touches
